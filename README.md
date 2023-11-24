@@ -44,7 +44,7 @@ cd node-ws
 npm install
 
 # Run the server
-npm run start
+npm start
 ```
 
 ### Demo
