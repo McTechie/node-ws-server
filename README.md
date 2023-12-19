@@ -35,10 +35,10 @@ sequenceDiagram
 
 ```bash
 # Clone the repository
-git clone https://github.com/McTechie/node-ws.git
+git clone https://github.com/McTechie/node-ws-server.git
 
 # Change directory
-cd node-ws
+cd ws-server
 
 # Install dependencies
 npm install
