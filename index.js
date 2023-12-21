@@ -3,7 +3,7 @@ require('dotenv').config();
 const { createServer } = require('http');
 const { WebSocketServer } = require('ws');
 const { v4: uuidv4 } = require('uuid');
-const { handleMessage, handleClose } = require('./utils');
+const { handleMessage, handleClose, broadcast } = require('./utils');
 
 const url = require('url');
 
@@ -29,8 +29,13 @@ wsServer.on('connection', (conn, request) => {
     state: {}, // Store any metadata or mutable state for that user
   };
 
-  conn.on('message', message => handleMessage(message, uuid));
-  conn.on('close', () => handleClose(uuid));
+  // broadcast the message to all connected users every 1 second
+  setInterval(() => {
+    broadcast();
+  }, 1000);
+
+  conn.on('message', message => handleMessage(message, uuid, CONNECTIONS));
+  conn.on('close', () => handleClose(uuid, CONNECTIONS));
 });
 
 // Step 4: Start the HTTP server

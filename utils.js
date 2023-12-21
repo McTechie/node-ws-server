@@ -1,4 +1,4 @@
-const broadcast = () => {
+const broadcast = (CONNECTIONS) => {
   const bytesToSend = JSON.stringify({
     users: Object.values(CONNECTIONS).map((c) => ({ username: c.username, state: c.state })),
   });
@@ -10,7 +10,7 @@ const broadcast = () => {
   }
 }
 
-const handleMessage = (bytes, uuid) => {
+const handleMessage = (bytes, uuid, CONNECTIONS) => {
   // Parse the message
   const message = JSON.parse(bytes.toString());
  
@@ -20,15 +20,15 @@ const handleMessage = (bytes, uuid) => {
   console.log('\x1b[36m%s\x1b[0m', `📦 ${CONNECTIONS[uuid].username} updated their state: ${JSON.stringify(CONNECTIONS[uuid].state)}`);
 
   // Broadcast the message to all connected users
-  broadcast();
+  broadcast(CONNECTIONS);
 }
 
-const handleClose = (uuid) => {
+const handleClose = (uuid, CONNECTIONS) => {
   console.log('\x1b[35m%s\x1b[0m', `[${new Date().toISOString()}] | ${CONNECTIONS[uuid].username} disconnected! 👋`);
   delete CONNECTIONS[uuid];
 
   // Broadcast the message to all connected users
-  broadcast();
+  broadcast(CONNECTIONS);
 }
 
 module.exports = {
